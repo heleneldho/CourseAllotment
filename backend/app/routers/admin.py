@@ -156,7 +156,13 @@ def get_allocation_rows_for_semester(db: Session, active_sem: str):
     return get_allocation_rows_for_context(db, active_sem, academic_year, department)
 
 
-def resolve_manual_edit_faculty(db: Session, payload: AllocationEditRequest):
+def resolve_manual_edit_faculty(
+    db: Session, 
+    payload: AllocationEditRequest, 
+    active_sem: str, 
+    academic_year: str, 
+    department: str
+):
     if payload.faculty_id is not None:
         faculty = db.query(User).filter(
             User.id == payload.faculty_id,
@@ -168,6 +174,7 @@ def resolve_manual_edit_faculty(db: Session, payload: AllocationEditRequest):
         if not typed_name:
             raise HTTPException(status_code=400, detail="Type a replacement faculty name.")
 
+        # ✅ Now active_sem, academic_year, and department are cleanly defined here!
         matching_roster = [
             row for row in roster_for_context(db, active_sem, academic_year, department).all()
             if normalize_faculty_name(row.name) == typed_name or normalize_email(row.email) == typed_email
@@ -837,7 +844,13 @@ def update_draft_allocation(
         Allocation.academic_year == academic_year,
         Allocation.department == department,
     ).first()
-    faculty = resolve_manual_edit_faculty(db, payload)
+    faculty = resolve_manual_edit_faculty(
+    db=db, 
+    payload=payload, 
+    active_sem=payload.semester,       # Or wherever your router reads the semester string from
+    academic_year=payload.academic_year, # Or current active session variable
+    department=payload.department       # Or current active department variable
+)
     return save_manual_allocation_edit(db, active_sem, allocation, faculty)
 
 
