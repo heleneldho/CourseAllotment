@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --text:         #334155;
+  --text-h:       #0F2926;
+  --bg:           #EDF2F1;
+  --border:       #e2e8f0;
+  --code-bg:      #f4f6f5;
+  --accent:       #006D64;
+  --accent-bg:    rgba(0, 109, 100, 0.10);
+  --accent-border:rgba(0, 109, 100, 0.35);
+  --social-bg:    rgba(230, 244, 234, 0.6);
+  --shadow:       rgba(0, 0, 0, 0.06) 0 4px 24px;
+
+  --sans:    'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono:    ui-monospace, Consolas, monospace;
+
+  font: 16px/1.5 var(--sans);
+  letter-spacing: 0.1px;
+  color-scheme: light;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #EDF2F1;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background-color: #EDF2F1;
+  border-inline: none;
+  text-align: left;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--heading);
+  font-weight: 800;
+  color: var(--text-h);
+  margin: 0;
+}
+
+p { margin: 0; }
+
+code {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 3px 7px;
+  background: var(--code-bg);
+}
+
+/* Select option colours for sidebar dark dropdowns */
+select option {
+  background-color: #ffffff;
+  color: #334155;
+}
+
+/* Smooth interactions */
+button { transition: opacity 0.15s, transform 0.1s; }
+button:hover { opacity: 0.92; }
+button:active { transform: scale(0.98); }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  appearance: textfield;
+}
