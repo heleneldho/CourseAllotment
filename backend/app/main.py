@@ -84,17 +84,16 @@ ensure_schema_updates()
 app = FastAPI(title="Course Allocation Portal API")
 
 def parse_allowed_origins():
-    configured = get_env("ALLOWED_ORIGINS", "")
-    # Vite selects the next free port in development. Allow the common local
-    # ports so PUT requests (such as allocation edits) are not rejected by CORS
-    # when the frontend is running on 5174/5175 instead of 5173.
-    local_dev_origins = [
-        "http://localhost:5173", "http://localhost:5174", "http://localhost:5175",
-        "http://127.0.0.1:5173", "http://127.0.0.1:5174", "http://127.0.0.1:5175",
+    # Explicitly return the allowed development and production origins
+    return [
+        "http://localhost:5173", 
+        "http://localhost:5174", 
+        "http://localhost:5175",
+        "http://127.0.0.1:5173", 
+        "http://127.0.0.1:5174", 
+        "http://127.0.0.1:5175",
         "https://course-allotment.vercel.app"
     ]
-    origins = [origin.strip().rstrip("/") for origin in configured.split(",") if origin.strip()]
-    return list(dict.fromkeys(origins + local_dev_origins))
 
 # Configure CORS rules to permit secure frontend network traffic
 app.add_middleware(
