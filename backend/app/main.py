@@ -99,7 +99,7 @@ def parse_allowed_origins():
 # Configure CORS rules to permit secure frontend network traffic
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=parse_allowed_origins(),
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
