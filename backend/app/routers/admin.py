@@ -845,12 +845,15 @@ def update_draft_allocation(
         Allocation.department == department,
     ).first()
     faculty = resolve_manual_edit_faculty(
-    db=db, 
-    payload=payload, 
-    active_sem=payload.semester,       # Or wherever your router reads the semester string from
-    academic_year=payload.academic_year, # Or current active session variable
-    department=payload.department       # Or current active department variable
-)
+        db=db,
+        payload=payload,
+        # The report context is stored on the server.  The edit payload only
+        # identifies the allocation and replacement faculty, so reading
+        # context from the payload raises AttributeError for draft edits.
+        active_sem=active_sem,
+        academic_year=academic_year,
+        department=department,
+    )
     return save_manual_allocation_edit(db, active_sem, allocation, faculty)
 
 

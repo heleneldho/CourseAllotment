@@ -84,8 +84,9 @@ ensure_schema_updates()
 app = FastAPI(title="Course Allocation Portal API")
 
 def parse_allowed_origins():
-    # Explicitly return the allowed development and production origins
-    return [
+    # Keep local development working, while allowing the deployed frontend
+    # origin to be set without a code change (for production and preview URLs).
+    defaults = [
         "http://localhost:5173", 
         "http://localhost:5174", 
         "http://localhost:5175",
@@ -94,6 +95,9 @@ def parse_allowed_origins():
         "http://127.0.0.1:5175",
         "https://course-allotment.vercel.app"
     ]
+    configured = get_env("ALLOWED_ORIGINS", "")
+    extra_origins = [origin.strip().rstrip("/") for origin in configured.split(",") if origin.strip()]
+    return list(dict.fromkeys(defaults + extra_origins))
 
 # Configure CORS rules to permit secure frontend network traffic
 app.add_middleware(
